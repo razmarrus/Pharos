@@ -1,6 +1,7 @@
-from classes import *
+from person_class import *
 from main_page import *
 from new_company import *
+from find_a_job import *
 
 def personal_profile(root, person):
     Profile(root, person).pack(side="top", fill="both", expand=True)
@@ -46,6 +47,10 @@ class Profile(Frame):
         self.destroy_widgets(root)
         main_page(root)
 
+    def to_job_search(self, root, skills):
+        self.destroy_widgets(root)
+        find_job(root, skills)
+
     def new_label(self, nomination, txt):
         buffer = nomination + ":\t " + txt
         Label(self.frame, text = buffer, justify=LEFT, bg="#FFCCBC").pack(anchor=SW)
@@ -63,6 +68,7 @@ class Profile(Frame):
         self.new_label_simple("\n" + name + ":")
         for i in range(len(arr)):
             self.new_label_simple('\t\t'+arr[i])
+
 
     def personal(self, root, person):
 
@@ -102,6 +108,10 @@ class Profile(Frame):
         for i in range(9, 13, 1):
             j = i - 9
             self.call_multistring_label(names[i], personArr[j])
+
+        job_button = Button(self.frame, text="Find a job", command=lambda: self.to_job_search(root, person.skills),
+                   width=20, height=1)
+        job_button.pack(anchor=S,pady=3)
 
         root.mainloop()
 

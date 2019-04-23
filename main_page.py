@@ -1,5 +1,6 @@
-from classes import *
-from companies import *
+from person_class import *
+from company_class import *
+
 #from list_of_pers import *
 #from add import *
 #from personal_profile import *
@@ -86,7 +87,7 @@ def personal_profile(root, person):
 
 
 class Profile(Frame):
-    def __init__(self, root, person):
+    def __init__(self, root,person):
 
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, background="#FFCCBC")
@@ -124,6 +125,10 @@ class Profile(Frame):
         self.destroy_widgets(root)
         main_page(root)
 
+    def to_job_search(self, root, skills):
+        self.destroy_widgets(root)
+        find_job(root, skills)
+
     def new_label(self, nomination, txt):
         buffer = nomination + ":\t " + txt
         Label(self.frame, text = buffer, justify=LEFT, bg="#FFCCBC").pack(anchor=SW)
@@ -141,6 +146,7 @@ class Profile(Frame):
         self.new_label_simple("\n" + name + ":")
         for i in range(len(arr)):
             self.new_label_simple('\t\t'+arr[i])
+
 
     def personal(self, root, person):
 
@@ -181,6 +187,10 @@ class Profile(Frame):
             j = i - 9
             self.call_multistring_label(names[i], personArr[j])
 
+        job_button = Button(self.frame, text="Find a job", command=lambda: self.to_job_search(root, person.skills),
+                   width=20, height=1)
+        job_button.pack(anchor=S,pady=3)
+
         root.mainloop()
 
 
@@ -213,7 +223,7 @@ class SearchScreen(Frame):
 
         self.find(root)
 
-    def destroy_vigets(self, root):
+    def destroy_widgets(self, root):
         self.canvas.destroy()
         self.frame.destroy()
 
@@ -222,11 +232,7 @@ class SearchScreen(Frame):
         #main_page(root)
 
     def to_main_page(self, root):
-        self.canvas.destroy()
-        self.frame.destroy()
-
-        self.vsb.destroy()
-        self.destroy()
+        self.destroy_widgets(root)
         main_page(root)
 
     def onFrameConfigure(self, event):
@@ -252,7 +258,7 @@ class SearchScreen(Frame):
     def find_by_name(self, name):
         name = dict.get(name)
         if name is not None:
-            self.destroy_vigets(root)
+            self.destroy_widgets(root)
             personal_profile(root, name)
         else:
             Error_label = Label(self.frame, text="No such person", background='#FFCCBC').grid(row=3, column=1)
@@ -299,7 +305,7 @@ class AdditionPersonScreen(Frame):
         '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
-    def destroy_example(self, root):
+    def destroy_widgets(self, root):
         self.canvas.destroy()
         self.frame.destroy()
 
@@ -321,7 +327,7 @@ class AdditionPersonScreen(Frame):
             entry.grid(row=i, column=j)
             #print(i)
 
-        but2 = Button(self.frame, text="Back", command=lambda: self.destroy_example(root), width=18)  # self.quit)#
+        but2 = Button(self.frame, text="Back", command=lambda: self.destroy_widgets(root), width=18)  # self.quit)#
         but2.grid(row=0, column=3)
         idif = 2
         name = StringVar()
@@ -855,12 +861,6 @@ class AdditionVacancyScreen(Frame):
             print(p)
             companies[str(owner_company.name)].vacancy.update({str(position.get()): p})
 
-            #vacancy_dict.update({str(name.get()): p})
-            #print(dict)
-
-            #for key, value in dict.items():
-             #   print(key, value)
-
         i = 26
         Label(self.frame, text='', background='#FFCCBC').grid(row=i, column=0)
         but1 = Button(self.frame, text="Save", command=Save, width=18)
@@ -868,7 +868,118 @@ class AdditionVacancyScreen(Frame):
 
 
 
-#main_page(dict)
+def find_job(root, current_skills):
+    JobSearch(root, current_skills).pack(side="top", fill="both", expand=True)
+    root.mainloop()
+
+
+class JobSearch(Frame):
+    def __init__(self, root, current_skills):
+
+        Frame.__init__(self, root)
+        self.canvas = Canvas(root, borderwidth=0, background="#FFCCBC")
+        self.frame = Frame(self.canvas, background="#FFCCBC")
+        self.vsb = Scrollbar(root, orient="vertical", command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self.vsb.set)
+
+        self.vsb.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.canvas.create_window((4, 4), window=self.frame, anchor="nw",
+                                  tags="self.frame")
+
+        self.frame.bind("<Configure>", self.onFrameConfigure)
+
+        self.entries(root, current_skills)
+
+
+    def onFrameConfigure(self, event):
+        '''Reset the scroll region to encompass the inner frame'''
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def destroy_widgets(self, root):
+        self.canvas.destroy()
+        self.frame.destroy()
+
+        self.vsb.destroy()
+        self.destroy()
+        #main_page(root)
+
+    def to_show_vacancy_profile(self, root, name, company):
+        self.destroy_widgets(root)
+        show_vacancy_profile(root, name, company)
+
+    def entries(self, root, current_skills):
+
+        def six_entries(self, strVar, i):
+            counter = 0
+            for x in range(2):
+                for y in range(1, 4, 1):
+                    entr(self, strVar[counter], x+i, y)
+                    counter = counter + 1
+
+        def entr(self, strVar, i, j = 1):
+            entry = Entry(self.frame, textvariable=strVar, width=22, bd=2)
+            entry.grid(row=i, column=j)
+            #print(i)
+
+        but2 = Button(self.frame, text="Back", command=lambda: self.destroy_widgets(root), width=18)  # self.quit)#
+        but2.grid(row=0, column=3)
+        Label(self.frame, text='', background='#FFCCBC').grid(row=1, column=0)
+        Label(self.frame, text='enter skills', background='#FFCCBC').grid(row=2, column=1)
+
+        skill_0 = StringVar()
+        skill_1 = StringVar()
+        skill_2 = StringVar()
+        skill_3 = StringVar()
+        skill_4 = StringVar()
+        skill_5 = StringVar()
+
+        skill_array = [skill_0 ,skill_1 ,skill_2 ,skill_3 ,skill_4 ,skill_5 ]
+        if current_skills is not None:
+            for i in range(len(current_skills)):
+                skill_array[i].set(current_skills[i])
+        #for i in range(12, 14, 1):
+        six_entries(self, skill_array, 3)
+
+        def to_out_array(array, out_array):
+            for i in range(len(array)):
+                if array[i].get() is not None and array[i].get() is not '':
+                    out_array.append(array[i].get())
+
+        def find():
+            out_skills = []
+            comp_owners = []
+            matching_vacancy = []
+            to_out_array(skill_array, out_skills)
+            for key, value in companies.items():  # Rows
+                if value.vacancy is not None:
+                    #print(value.vacancy)
+                    for vacancy_key, vacancy in value.vacancy.items():
+                        for skill in vacancy.skills:
+                            if skill in out_skills:
+                                matching_vacancy.append(vacancy)
+                                comp_owners.append(value)
+
+            row = 12
+            Label(self.frame, text='', background='#FFCCBC').grid(row=row, column=0)
+            row = row + 1
+            if len(matching_vacancy) is 0:
+                l = Label(self.frame, text='there are no vacancies', background='#FFCCBC').grid(row=row, column=2)
+            else:
+                print("found", matching_vacancy)
+                for i in range(len(matching_vacancy)):
+                    print(matching_vacancy[i])
+                    Button(self.frame, text=matching_vacancy[i].position, width=18, command=lambda:
+                    self.to_show_vacancy_profile(root, matching_vacancy[i], comp_owners[i] )).grid(row=row, column=1)
+                    row = row + 1
+
+
+        i = 10
+        Label(self.frame, text='', background='#FFCCBC').grid(row=i, column=0)
+        but1 = Button(self.frame, text="Find", command=find, width=18)
+        but1.grid(row=i+1, column=2)
+
+
 if __name__ == '__main__':
     root = Tk()
     root.title("GUI на Python")

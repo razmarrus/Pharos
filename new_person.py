@@ -40,7 +40,7 @@ class AdditionPersonScreen(Frame):
         '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
-    def destroy_example(self, root):
+    def destroy_widgets(self, root):
         self.canvas.destroy()
         self.frame.destroy()
 
@@ -62,7 +62,7 @@ class AdditionPersonScreen(Frame):
             entry.grid(row=i, column=j)
             #print(i)
 
-        but2 = Button(self.frame, text="Back", command=lambda: self.destroy_example(root), width=18)  # self.quit)#
+        but2 = Button(self.frame, text="Back", command=lambda: self.destroy_widgets(root), width=18)  # self.quit)#
         but2.grid(row=0, column=3)
         idif = 2
         name = StringVar()

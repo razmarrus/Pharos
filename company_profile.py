@@ -1,6 +1,6 @@
-from classes import *
+from person_class import *
 from main_page import *
-from companies import *
+from company_class import *
 #from vacancy_profile import *
 
 
@@ -91,7 +91,7 @@ class CompanyProfile(Frame):
             Error_label = Label(self.frame, text="Can't find vacancy!", background='#FFCCBC').pack(anchor=SW)
             print("Can't find vacancy!")
 
-
+'''
 def show_vacancy_profile(root, vacancy, company):
     VacancyProfile(root, vacancy, company).pack(side="top", fill="both", expand=True)
     root.mainloop()
@@ -119,7 +119,6 @@ class VacancyProfile(Frame):
         self.personal(root, vacancy, company)
 
     def onFrameConfigure(self, event):
-        '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def to_main_menu(self, root):
@@ -174,6 +173,8 @@ class VacancyProfile(Frame):
             self.multi_string_label('skills', vacancy.skills)
 
         root.mainloop()
+'''
+
 
 if __name__ == '__main__':
     root = Tk()

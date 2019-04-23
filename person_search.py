@@ -29,7 +29,7 @@ class SearchScreen(Frame):
 
         self.find(root)
 
-    def destroy_vigets(self, root):
+    def destroy_widgets(self, root):
         self.canvas.destroy()
         self.frame.destroy()
 
@@ -38,11 +38,7 @@ class SearchScreen(Frame):
         #main_page(root)
 
     def to_main_page(self, root):
-        self.canvas.destroy()
-        self.frame.destroy()
-
-        self.vsb.destroy()
-        self.destroy()
+        self.destroy_widgets(root)
         main_page(root)
 
     def onFrameConfigure(self, event):
@@ -68,7 +64,7 @@ class SearchScreen(Frame):
     def find_by_name(self, name):
         name = dict.get(name)
         if name is not None:
-            self.destroy_vigets(root)
+            self.destroy_widgets(root)
             personal_profile(root, name)
         else:
             Error_label = Label(self.frame, text="No such person", background='#FFCCBC').grid(row=3, column=1)

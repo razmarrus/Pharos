@@ -1,5 +1,5 @@
-from classes import *
-from companies import *
+from person_class import *
+from company_class import *
 from main_page import *
 from company_profile import *
 

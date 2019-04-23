@@ -1,6 +1,6 @@
 #from classes import *
 from main_page import *
-from companies import *
+from company_class import *
 
 
 def add_company(root):

@@ -51,7 +51,8 @@ class Vacancy:
 OpenAI = Company("OpenAI", "Ilon Musk", "USA", "Artificial Intelligence", '500', 'openai.com' )
 
 Senior_SE = Vacancy("Senior Software Engineer", "These roles do not require machine learning background, though you should be interested in the field.",
-                    'San Francisco', 'OpenAI','40000$', ['production services', 'Unix shell', 'system working'], candidates=None)
+                    'San Francisco', 'OpenAI','40000$', ['production services', 'Unix shell', 'system working',
+                                                         'machine learning'], candidates=None)
 
 ML_Engi = Vacancy("Machine Learning Engineer", 'The Machine Learning Engineer role is responsible for building AI systems that can perform previously impossible tasks or achieve unprecedented levels of performance. '
                   , 'San Francisco', 'OpenAI','40000$', ['machine learning', 'programming skills', 'AI safety'])

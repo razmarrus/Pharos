@@ -1,4 +1,6 @@
 import sys
+import json
+import pickle
 from tkinter import *
 sys.path.insert(0, 'W:/university/2_course/ISP_2')
 
@@ -67,7 +69,6 @@ class Person:
 
     '''
 
-
     def __str__(self):
         return 'Person: %s, %s, industry %s,headline %s,education %s,\nskills %s,current job %s, %s, %s, %s]' % (self.name, self.last_name,
                                                             self.industry, self.headline, self.education,
@@ -75,17 +76,33 @@ class Person:
                                                             self.certificates)
 
 
-
 person = Person("Grievous", "Sheelal", "Kali", "warlord", "higest academy of handsome military leaders",
-                skills = ["Multihand figthing", 'jedi killing', 'Spinning'], summary = 'Looking for jeji kilkilng job',
-                headline='victory or death',  contacts = ['emperrorBestStudent@empire.com'], current_job = "Robo", jobs = ["Killer", 'Jedi Killer'],
+                skills = ["Multihand fighting", 'jedi killing', 'Spinning'], summary = 'Looking for jedi killing job',
+                headline='hello there, general Kenobi',  contacts = ['emperrorBestStudent@empire.com'], current_job = "general of droid army",
+                jobs = ["Killer", 'Jedi Killer'],
                 certificates = ['cat healer courses', 'master of making pancakes'],
-                publication = ['ten ways to kill a jedi', 'why two is better then one'])
+                publication = ['ten ways to kill a jedi', 'why four is better then one'])
 mol = Person("Mol", "Dart", "Irodonia", "Sith Lord", "School of anger and toxicity", summary = 'Looking for jeji kilkilng job', skills = None, headline = None,
                  contacts = None, current_job = None, jobs = None, certificates = None, publication = None)
 dict = { "Grievous": person,
         "Mol" : mol}
 
+#with open('dict.p', 'wb') as fp:
+#    pickle.dump(dict, fp, protocol=pickle.HIGHEST_PROTOCOL)
+
+#with open('dict.p', 'rb') as fp:
+#    dict = pickle.load(fp)
+
+#print(dict)
+#for key, value in dict.items():  # Rows
+#    print(value)
+
+
+#with open('dict.json', 'w') as person_dict:
+#    json.dump(dict, person_dict)
+
+#with open('dict.json') as person_dict:
+#    dict = json.load(person_dict)
 '''
 root = Tk()
 root.title("GUI на Python")

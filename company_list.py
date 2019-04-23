@@ -1,7 +1,7 @@
 #from classes import *
 from main_page import *
 from company_profile import *
-from companies import *
+from company_class import *
 #from personal_profile import *
 
 
