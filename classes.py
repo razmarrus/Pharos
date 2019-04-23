@@ -74,19 +74,7 @@ class Person:
                                                             self.skills, self.current_job, self.jobs, self.contacts,
                                                             self.certificates)
 
-class Company:
-    def __init__(self, name, industry, company_size, company_type,  website = None):
-        self.name = name
-        self.industry = industry
-        self.company_size = company_size
-        self.company_type = company_type
-        if website is not None:
-            self.website = website
 
-    def __str__(self):
-        return 'Company: [%s, %s, %s, %s]' % (self.name, self.industry, self.company_type, self.company_size)
-
-#jango = Person("Jango", "fett", "")
 
 person = Person("Grievous", "Sheelal", "Kali", "warlord", "higest academy of handsome military leaders",
                 skills = ["Multihand figthing", 'jedi killing', 'Spinning'], summary = 'Looking for jeji kilkilng job',

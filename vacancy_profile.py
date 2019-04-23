@@ -1,14 +1,16 @@
 from classes import *
+from companies import *
 from main_page import *
-from new_company import *
+from company_profile import *
 
-def personal_profile(root, person):
-    Profile(root, person).pack(side="top", fill="both", expand=True)
+def show_vacancy_profile(root, vacancy, company):
+    VacancyProfile(root, vacancy, company).pack(side="top", fill="both", expand=True)
     root.mainloop()
 
 
-class Profile(Frame):
-    def __init__(self, root,person):
+class VacancyProfile(Frame):
+
+    def __init__(self, root,vacancy, company):
 
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, background="#FFCCBC")
@@ -25,26 +27,26 @@ class Profile(Frame):
                                   tags="self.frame")
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
-        #self.person = person
-        self.personal(root, person)
+        self.personal(root, vacancy, company)
 
     def onFrameConfigure(self, event):
         '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def to_main_menu(self, root):
+        self.destroy_widgets(root)
+        main_page(root)
+
+    def to_company_page(self, root, company):
+        self.destroy_widgets(root)
+        show_company_profile(root, company)
 
     def destroy_widgets(self, root):
         self.frame.destroy()
         self.canvas.destroy()
         self.vsb.destroy()
         self.destroy()
-
-    def to_new_company(self, root):
-        self.destroy_widgets(root)
-        add_company(root)
-
-    def to_main_page(self, root):
-        self.destroy_widgets(root)
-        main_page(root)
+        #main_page(root)
 
     def new_label(self, nomination, txt):
         buffer = nomination + ":\t " + txt
@@ -64,51 +66,30 @@ class Profile(Frame):
         for i in range(len(arr)):
             self.new_label_simple('\t\t'+arr[i])
 
-    def personal(self, root, person):
+    def personal(self, root, vacancy, company):
 
-        names = ['first name', 'last name', 'headline', 'country  ', 'industry  ', 'education', 'current_job', 'skills',
-                 'summary', 'jobs', 'publication' , 'contacts', 'certificates']#, 'volunteering']
-        main_page_button = Button(self.frame, text="Back", command=lambda: self.to_main_page(root),
+        to_main = Button(self.frame, text="To main menu", command=lambda: self.to_main_menu(root),
                    width=20, height=1)
-        main_page_button.pack(anchor=SW,pady=3)
+        to_main.pack(anchor=SW,pady=3)
 
-        my_company = Button(self.frame, text="My Company", command=lambda: self.to_new_company(root),
+        b = Button(self.frame, text="Back", command=lambda: self.to_company_page(root, company),
                    width=20, height=1)
-        my_company.pack(anchor=SE,pady=3)
+        b.pack(anchor=SW,pady=3)
 
-        new_company = Button(self.frame, text="New Company", command=lambda: self.to_new_company(root),
-                   width=20, height=1)
-        new_company.pack(anchor=SE,pady=3)
+        names = ['position', 'city', 'requirements',  'company', 'salary']
+        vacancy_vars = [vacancy.position, vacancy.city, vacancy.requirements,  vacancy.company, vacancy.salary]
+        for i in range(len(vacancy_vars)):
+            self.new_label(names[i], vacancy_vars[i])
 
-        self.new_label(names[0], person.name)
-        self.new_label(names[1], person.last_name)
-        if person.headline is not None:
-            self.new_label(names[2], person.headline)
+        if vacancy.skills is not None:
+            self.multi_string_label('skills', vacancy.skills)
 
-        self.new_label(names[3], person.country)
-        self.new_label(names[4], person.industry)
-        self.new_label(names[5], person.education)
-
-        if person.current_job is not None:
-            self.new_label(names[6], person.current_job)
-
-        if person.skills is not None:
-            self.multi_string_label(names[7], person.skills)
-
-        if person.summary is not None:
-            self.new_label(names[8], person.summary)
-
-        personArr = [person.jobs, person.publication, person.contacts, person.certificates]
-        for i in range(9, 13, 1):
-            j = i - 9
-            self.call_multistring_label(names[i], personArr[j])
 
         root.mainloop()
-
 
 if __name__ == '__main__':
     root = Tk()
     root.title("GUI на Python")
     root.geometry("450x450")
 
-    personal_profile(root, dict['Grievous'])
+    show_vacancy_profile(root, companies['OpenAI'].vacancy['Senior Software Engineer'], companies['OpenAI'])
