@@ -58,7 +58,7 @@ class SearchScreen(Frame):
         i = 4
         for key, value in dict.items():  # Rows
             print(key)
-            Button(self.frame, text=key, width = 28,  command=lambda: self.find_by_name(key)).grid(row=i, column=1)
+            Button(self.frame, text=key, width = 28,  command=lambda key = key: self.find_by_name(key)).grid(row=i, column=1)
             i= i+1
 
     def find_by_name(self, name):

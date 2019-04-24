@@ -94,6 +94,7 @@ class JobSearch(Frame):
                             if skill in out_skills:
                                 matching_vacancy.append(vacancy)
                                 comp_owners.append(value)
+                                break
 
             row = 12
             Label(self.frame, text='', background='#FFCCBC').grid(row=row, column=0)
@@ -104,8 +105,8 @@ class JobSearch(Frame):
                 print("found", matching_vacancy)
                 for i in range(len(matching_vacancy)):
                     print(matching_vacancy[i])
-                    Button(self.frame, text=matching_vacancy[i].position, width=18, command=lambda:
-                    self.to_show_vacancy_profile(root, matching_vacancy[i], comp_owners[i] )).grid(row=row, column=1)
+                    Button(self.frame, text=matching_vacancy[i].position, width=18, command=lambda vac=matching_vacancy[i], owner = comp_owners[i]:
+                    self.to_show_vacancy_profile(root, vac, owner )).grid(row=row, column=1)
                     row = row + 1
 
 

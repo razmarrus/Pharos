@@ -62,7 +62,7 @@ class CompanySearchScreen(Frame):
         i = 4
         for key, value in company_list.items():  # Rows
             print(key)
-            Button(self.frame, text=key, width = 28, command=lambda: self.find_by_name(key, company_list)).grid(row=i, column=1)
+            Button(self.frame, text=key, width = 28, command=lambda key=key: self.find_by_name(key, company_list)).grid(row=i, column=1)
             i= i+1
 
     def find_by_name(self, name, company_list):

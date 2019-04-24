@@ -15,7 +15,7 @@ class AdditionPersonScreen(Frame):
         self.frame = Frame(self.canvas, background="#FFCCBC")
         self.vsb = Scrollbar(root, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.vsb.set)
-        self.names = ['first name*', 'last name*', 'headline', 'country*', 'industry*', 'education*', 'current_job',
+        self.names = [ 'nickname*','password*','first name*', 'last name*', 'headline', 'country*', 'industry*', 'education*', 'current_job',
                       'skills',
                       'summary', 'jobs', 'publication', 'contacts', 'certificates']
 
@@ -46,7 +46,8 @@ class AdditionPersonScreen(Frame):
 
         self.vsb.destroy()
         self.destroy()
-        main_page(root)
+        login_screen(root)
+        #main_page(root)
 
     def entries(self, root):
 
@@ -65,6 +66,8 @@ class AdditionPersonScreen(Frame):
         but2 = Button(self.frame, text="Back", command=lambda: self.destroy_widgets(root), width=18)  # self.quit)#
         but2.grid(row=0, column=3)
         idif = 2
+        nickname = StringVar()
+        password = StringVar()
         name = StringVar()
         last_name = StringVar()
         headline = StringVar()
@@ -72,7 +75,7 @@ class AdditionPersonScreen(Frame):
         industry = StringVar()
         education = StringVar()
         current_job = StringVar()
-        strVars = [name, last_name, headline, country, industry, education,current_job]
+        strVars = [nickname, password, name, last_name, headline, country, industry, education,current_job]
         for i in range(len(strVars)):
             entr(self, strVars[i], i * 2)
 
@@ -84,15 +87,19 @@ class AdditionPersonScreen(Frame):
         skill_5 = StringVar()
         skill_array = [skill_0 ,skill_1 ,skill_2 ,skill_3 ,skill_4 ,skill_5 ]
         #for i in range(12, 14, 1):
-        six_entries(self, skill_array, 14)
+        i = 18
+        six_entries(self, skill_array, i)
+        i = i +idif
 
         summary = StringVar()
-        entr(self, summary, 16)
+        entr(self, summary, i)
 
         job_1 = StringVar()
         job_2 = StringVar()
-        entr(self, job_1, 18)
-        entr(self, job_2, 19)
+        i = i + idif
+        entr(self, job_1, i)
+        i = i + 1
+        entr(self, job_2, i)
 
         publ_0 = StringVar()
         publ_1 = StringVar()
@@ -101,12 +108,15 @@ class AdditionPersonScreen(Frame):
         publ_4 = StringVar()
         publ_5 = StringVar()
         publ_array = [publ_0, publ_1,publ_2,publ_3,publ_4,publ_5]
-        six_entries(self, publ_array, 20)
+        i = i + 1
+        six_entries(self, publ_array, i)
 
         contact_0 = StringVar()
         contact_1 = StringVar()
-        entr(self, contact_0, 22)
-        entr(self, contact_1, 23)
+        i = i + idif
+        entr(self, contact_0, i)
+        i = i + 1
+        entr(self, contact_1, i)
 
         sert_0 = StringVar()
         sert_1 = StringVar()
@@ -137,11 +147,11 @@ class AdditionPersonScreen(Frame):
             to_out_array(publ_array, out_publications)
             #print("out skills",out_skills)
 
-            p = Person(name.get(), last_name.get(), country.get(), industry.get(), education.get(), skills = out_skills,
+            p = Person(nickname.get(), password.get(),name.get(), last_name.get(), country.get(), industry.get(), education.get(), skills = out_skills,
                        summary = summary.get(), headline =headline.get(),
                  contacts = contacts, current_job = current_job.get(), jobs = jobs, certificates = out_sert,
                         publication =out_publications)
-            dict.update({str(name.get()+last_name.get()): p})
+            dict.update({str(nickname.get()): p})
             print(dict)
 
             for key, value in dict.items():

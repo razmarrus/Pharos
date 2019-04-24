@@ -6,10 +6,12 @@ sys.path.insert(0, 'W:/university/2_course/ISP_2')
 
 
 class Person:
-    def __init__(self, first_name, last_name, country, industry, education, skills = None, summary = None, headline = None,
+    def __init__(self, nickname, password, first_name, last_name,  country, industry, education, skills = None, summary = None, headline = None,
                  contacts = None, current_job = None, jobs = None, certificates = None, publication = None):
         self.name = first_name
         self.last_name = last_name
+        self.nickname = nickname
+        self.password = password
         self.country = country
         self.education = education
         self.industry = industry
@@ -76,16 +78,16 @@ class Person:
                                                             self.certificates)
 
 
-person = Person("Grievous", "Sheelal", "Kali", "warlord", "higest academy of handsome military leaders",
+person = Person("nia","kawai","Grievous", "Sheelal", "Kali", "warlord", "higest academy of handsome military leaders",
                 skills = ["Multihand fighting", 'jedi killing', 'Spinning'], summary = 'Looking for jedi killing job',
                 headline='hello there, general Kenobi',  contacts = ['emperrorBestStudent@empire.com'], current_job = "general of droid army",
                 jobs = ["Killer", 'Jedi Killer'],
                 certificates = ['cat healer courses', 'master of making pancakes'],
                 publication = ['ten ways to kill a jedi', 'why four is better then one'])
-mol = Person("Mol", "Dart", "Irodonia", "Sith Lord", "School of anger and toxicity", summary = 'Looking for jeji kilkilng job', skills = None, headline = None,
+mol = Person('desy','sempai',"Mol", "Dart", "Irodonia", "Sith Lord", "School of anger and toxicity", summary = 'Looking for jeji kilkilng job', skills = None, headline = None,
                  contacts = None, current_job = None, jobs = None, certificates = None, publication = None)
-dict = { "Grievous": person,
-        "Mol" : mol}
+dict = { person.nickname: person,
+        mol.nickname : mol}
 
 #with open('dict.p', 'wb') as fp:
 #    pickle.dump(dict, fp, protocol=pickle.HIGHEST_PROTOCOL)
@@ -93,7 +95,7 @@ dict = { "Grievous": person,
 #with open('dict.p', 'rb') as fp:
 #    dict = pickle.load(fp)
 
-#print(dict)
+print(dict)
 #for key, value in dict.items():  # Rows
 #    print(value)
 

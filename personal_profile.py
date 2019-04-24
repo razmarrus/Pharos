@@ -16,7 +16,7 @@ class Profile(Frame):
         self.frame = Frame(self.canvas, background="#FFCCBC")
         self.vsb = Scrollbar(root, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.vsb.set)
-        self.names = ['first name', 'last name', 'headline', 'country', 'industry', 'education', 'current_job',
+        self.names = ['nickname','first name', 'last name', 'headline', 'country', 'industry', 'education', 'current_job',
                       'skills',
                       'summary', 'jobs', 'publication', 'contacts', 'certificates']
 
@@ -73,7 +73,7 @@ class Profile(Frame):
     def personal(self, root, person):
 
         names = ['first name', 'last name', 'headline', 'country  ', 'industry  ', 'education', 'current_job', 'skills',
-                 'summary', 'jobs', 'publication' , 'contacts', 'certificates']#, 'volunteering']
+                 'summary', 'jobs', 'publication' , 'contacts', 'certificates' ,'nickname']#, 'volunteering']
         main_page_button = Button(self.frame, text="Back", command=lambda: self.to_main_page(root),
                    width=20, height=1)
         main_page_button.pack(anchor=SW,pady=3)
@@ -85,7 +85,7 @@ class Profile(Frame):
         new_company = Button(self.frame, text="New Company", command=lambda: self.to_new_company(root),
                    width=20, height=1)
         new_company.pack(anchor=SE,pady=3)
-
+        self.new_label(names[13], person.nickname)
         self.new_label(names[0], person.name)
         self.new_label(names[1], person.last_name)
         if person.headline is not None:
@@ -113,12 +113,10 @@ class Profile(Frame):
                    width=20, height=1)
         job_button.pack(anchor=S,pady=3)
 
-        root.mainloop()
-
 
 if __name__ == '__main__':
     root = Tk()
     root.title("GUI на Python")
     root.geometry("450x450")
 
-    personal_profile(root, dict['Grievous'])
+    personal_profile(root, dict['nia'])

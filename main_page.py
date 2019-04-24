@@ -1,6 +1,7 @@
 from person_class import *
 from company_class import *
 
+
 #from list_of_pers import *
 #from add import *
 #from personal_profile import *
@@ -10,7 +11,7 @@ from company_class import *
 #from vacancy_profile import *
 
 
-def main_page(root):
+def main_page(root, nickname):
     buffer = Frame(root, background="#FFCCBC",  height=95, width =1500)
     buffer.pack()
     root.configure(background='#FFCCBC')
@@ -31,7 +32,7 @@ def main_page(root):
 
     def but_callback_profile():
         destroy_buttons()
-        personal_profile(root, dict['Grievous'])
+        personal_profile(root, dict[nickname])
 
     def but_callback_list():
         destroy_buttons()
@@ -78,6 +79,105 @@ def main_page(root):
     root.mainloop()
 
 
+def login_screen(root):
+
+    def destroy_buttons():
+        buffer.destroy()
+        new_button.destroy()
+        my_profile_button.destroy()
+        quit_button.destroy()
+
+    def but_callback_new():
+        destroy_buttons()
+        add_person(root)
+
+    def but_callback_profile():
+        destroy_buttons()
+        login_personal_profile(root)
+
+    buffer = Frame(root, background="#FFCCBC",  height=95, width =1500)
+    buffer.pack()
+        #self.root.configure(background='#FFCCBC')
+    colors = ['#ECEFF1', '#CFD8DC', '#B0BEC5']
+    my_profile_button = Button(text='Log in',
+                                        width=20,
+                                        height=3,
+                                        bg=colors[0],
+                                        command=but_callback_profile)
+
+    my_profile_button.pack(pady=4)  # padx=10, pady=10)
+
+    new_button = Button(text='New profile',
+                            width=20,
+                            height=3,
+                            bg=colors[1],
+                            command=but_callback_new)
+    new_button.pack(pady=4)
+
+    quit_button = Button(text='Quit',
+                             width=20, height=3,
+                             bg=colors[2],
+                             command=quit)
+    quit_button.pack(pady=4)
+
+    root.mainloop()
+
+
+'''  ===================================== Login Screen ===================================================  '''
+
+
+def login_personal_profile(root):
+    LoginPersonalProfile(root).pack(side="top", fill="both", expand=True)
+    root.mainloop()
+
+
+class LoginPersonalProfile(Frame):
+    def __init__(self, root):
+        Frame.__init__(self, root)
+        self.canvas = Canvas(root, borderwidth=0, background="#FFCCBC")
+        self.frame = Frame(self.canvas, background="#FFCCBC")
+
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.canvas.create_window((4, 4), window=self.frame, anchor="nw",
+                             tags="self.frame")
+
+        self.widgets()
+
+    def destroy_entry_screen(self, root):
+        self.frame.destroy()
+        self.canvas.destroy()
+        self.destroy()
+        login_screen(root)
+
+    def enter_profile(self, nickname, password):
+
+        print("nickname", nickname.get(), 'password', password.get())
+        Label(self.frame, text='', bg="#FFCCBC").grid(row=5, column=1)
+        if dict[nickname.get()]:
+            if dict[nickname.get()].password == password.get():
+                self.frame.destroy()
+                self.canvas.destroy()
+                self.destroy()
+                main_page(root, nickname.get())
+        else:
+            Label(self.frame, text='incorrect input', bg="#FFCCBC").grid(row=5, column=1)
+
+    def widgets(self):
+        Button(self.frame, text='Back', width=15, command=lambda  r=root: self.destroy_entry_screen(r)).grid(
+            row=0, column=0)
+        Label(self.frame, text='', bg="#FFCCBC", width=12).grid(row=1, column=0)
+        Label(self.frame, text='nickname   ', bg="#FFCCBC").grid(row=2, column=1)
+        nickname = StringVar()
+        Entry(self.frame, textvariable=nickname, width=30, bd=2).grid(row=2, column=2)
+
+        Label(self.frame, text='password ', bg="#FFCCBC").grid(row=3, column=1)
+        password = StringVar()
+        Entry(self.frame, textvariable=password, width=30, bd=2).grid(row=3, column=2)
+        Button(self.frame, text='Enter', width=18, command=lambda  nickname=nickname,
+                                                             password=password:
+        self.enter_profile( nickname, password)).grid(row=4, column=1)
+
+
 '''  ===================================== PERSONAL PROFILE ===================================================  '''
 
 
@@ -94,7 +194,7 @@ class Profile(Frame):
         self.frame = Frame(self.canvas, background="#FFCCBC")
         self.vsb = Scrollbar(root, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.vsb.set)
-        self.names = ['first name', 'last name', 'headline', 'country', 'industry', 'education', 'current_job',
+        self.names = ['nickname','first name', 'last name', 'headline', 'country', 'industry', 'education', 'current_job',
                       'skills',
                       'summary', 'jobs', 'publication', 'contacts', 'certificates']
 
@@ -151,7 +251,7 @@ class Profile(Frame):
     def personal(self, root, person):
 
         names = ['first name', 'last name', 'headline', 'country  ', 'industry  ', 'education', 'current_job', 'skills',
-                 'summary', 'jobs', 'publication' , 'contacts', 'certificates']#, 'volunteering']
+                 'summary', 'jobs', 'publication' , 'contacts', 'certificates' ,'nickname']#, 'volunteering']
         main_page_button = Button(self.frame, text="Back", command=lambda: self.to_main_page(root),
                    width=20, height=1)
         main_page_button.pack(anchor=SW,pady=3)
@@ -163,7 +263,7 @@ class Profile(Frame):
         new_company = Button(self.frame, text="New Company", command=lambda: self.to_new_company(root),
                    width=20, height=1)
         new_company.pack(anchor=SE,pady=3)
-
+        self.new_label(names[13], person.nickname)
         self.new_label(names[0], person.name)
         self.new_label(names[1], person.last_name)
         if person.headline is not None:
@@ -190,8 +290,6 @@ class Profile(Frame):
         job_button = Button(self.frame, text="Find a job", command=lambda: self.to_job_search(root, person.skills),
                    width=20, height=1)
         job_button.pack(anchor=S,pady=3)
-
-        root.mainloop()
 
 
 '''  ===================================== PERSON SEARCH ===================================================  '''
@@ -252,7 +350,7 @@ class SearchScreen(Frame):
         i = 4
         for key, value in dict.items():  # Rows
             print(key)
-            Button(self.frame, text=key, width = 28,  command=lambda: self.find_by_name(key)).grid(row=i, column=1)
+            Button(self.frame, text=key, width = 28,  command=lambda key = key: self.find_by_name(key)).grid(row=i, column=1)
             i= i+1
 
     def find_by_name(self, name):
@@ -280,7 +378,7 @@ class AdditionPersonScreen(Frame):
         self.frame = Frame(self.canvas, background="#FFCCBC")
         self.vsb = Scrollbar(root, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.vsb.set)
-        self.names = ['first name*', 'last name*', 'headline', 'country*', 'industry*', 'education*', 'current_job',
+        self.names = [ 'nickname*','password*','first name*', 'last name*', 'headline', 'country*', 'industry*', 'education*', 'current_job',
                       'skills',
                       'summary', 'jobs', 'publication', 'contacts', 'certificates']
 
@@ -311,7 +409,8 @@ class AdditionPersonScreen(Frame):
 
         self.vsb.destroy()
         self.destroy()
-        main_page(root)
+        login_screen(root)
+        #main_page(root)
 
     def entries(self, root):
 
@@ -330,6 +429,8 @@ class AdditionPersonScreen(Frame):
         but2 = Button(self.frame, text="Back", command=lambda: self.destroy_widgets(root), width=18)  # self.quit)#
         but2.grid(row=0, column=3)
         idif = 2
+        nickname = StringVar()
+        password = StringVar()
         name = StringVar()
         last_name = StringVar()
         headline = StringVar()
@@ -337,7 +438,7 @@ class AdditionPersonScreen(Frame):
         industry = StringVar()
         education = StringVar()
         current_job = StringVar()
-        strVars = [name, last_name, headline, country, industry, education,current_job]
+        strVars = [nickname, password, name, last_name, headline, country, industry, education,current_job]
         for i in range(len(strVars)):
             entr(self, strVars[i], i * 2)
 
@@ -349,15 +450,19 @@ class AdditionPersonScreen(Frame):
         skill_5 = StringVar()
         skill_array = [skill_0 ,skill_1 ,skill_2 ,skill_3 ,skill_4 ,skill_5 ]
         #for i in range(12, 14, 1):
-        six_entries(self, skill_array, 14)
+        i = 18
+        six_entries(self, skill_array, i)
+        i = i +idif
 
         summary = StringVar()
-        entr(self, summary, 16)
+        entr(self, summary, i)
 
         job_1 = StringVar()
         job_2 = StringVar()
-        entr(self, job_1, 18)
-        entr(self, job_2, 19)
+        i = i + idif
+        entr(self, job_1, i)
+        i = i + 1
+        entr(self, job_2, i)
 
         publ_0 = StringVar()
         publ_1 = StringVar()
@@ -366,12 +471,15 @@ class AdditionPersonScreen(Frame):
         publ_4 = StringVar()
         publ_5 = StringVar()
         publ_array = [publ_0, publ_1,publ_2,publ_3,publ_4,publ_5]
-        six_entries(self, publ_array, 20)
+        i = i + 1
+        six_entries(self, publ_array, i)
 
         contact_0 = StringVar()
         contact_1 = StringVar()
-        entr(self, contact_0, 22)
-        entr(self, contact_1, 23)
+        i = i + idif
+        entr(self, contact_0, i)
+        i = i + 1
+        entr(self, contact_1, i)
 
         sert_0 = StringVar()
         sert_1 = StringVar()
@@ -402,11 +510,11 @@ class AdditionPersonScreen(Frame):
             to_out_array(publ_array, out_publications)
             #print("out skills",out_skills)
 
-            p = Person(name.get(), last_name.get(), country.get(), industry.get(), education.get(), skills = out_skills,
+            p = Person(nickname.get(), password.get(),name.get(), last_name.get(), country.get(), industry.get(), education.get(), skills = out_skills,
                        summary = summary.get(), headline =headline.get(),
                  contacts = contacts, current_job = current_job.get(), jobs = jobs, certificates = out_sert,
                         publication =out_publications)
-            dict.update({str(name.get()+last_name.get()): p})
+            dict.update({str(nickname.get()): p})
             print(dict)
 
             for key, value in dict.items():
@@ -569,7 +677,7 @@ class CompanySearchScreen(Frame):
         i = 4
         for key, value in company_list.items():  # Rows
             print(key)
-            Button(self.frame, text=key, width = 28, command=lambda: self.find_by_name(key, company_list)).grid(row=i, column=1)
+            Button(self.frame, text=key, width = 28, command=lambda key=key: self.find_by_name(key, company_list)).grid(row=i, column=1)
             i= i+1
 
     def find_by_name(self, name, company_list):
@@ -760,8 +868,8 @@ class VacancyProfile(Frame):
         root.mainloop()
 
 
-
 '''  ===================================== VACANCY ADDITION ===================================================  '''
+
 
 def add_vacancy(root, company):
     AdditionVacancyScreen(root, company).pack(side="top", fill="both", expand=True)
@@ -795,11 +903,9 @@ class AdditionVacancyScreen(Frame):
                   relief="solid").grid(row=row * 2, column=0)
             Label(self.frame, text='', background='#FFCCBC').grid(row=row * 2 + 1, column=0)
 
-
     def onFrameConfigure(self, event):
         '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
 
     def destroy_example(self, root):
         self.canvas.destroy()
@@ -866,6 +972,8 @@ class AdditionVacancyScreen(Frame):
         but1 = Button(self.frame, text="Save", command=Save, width=18)
         but1.grid(row=i+1, column=2)
 
+
+'''  ===================================== JOB SEARCH ===================================================  '''
 
 
 def find_job(root, current_skills):
@@ -959,6 +1067,7 @@ class JobSearch(Frame):
                             if skill in out_skills:
                                 matching_vacancy.append(vacancy)
                                 comp_owners.append(value)
+                                break
 
             row = 12
             Label(self.frame, text='', background='#FFCCBC').grid(row=row, column=0)
@@ -969,8 +1078,8 @@ class JobSearch(Frame):
                 print("found", matching_vacancy)
                 for i in range(len(matching_vacancy)):
                     print(matching_vacancy[i])
-                    Button(self.frame, text=matching_vacancy[i].position, width=18, command=lambda:
-                    self.to_show_vacancy_profile(root, matching_vacancy[i], comp_owners[i] )).grid(row=row, column=1)
+                    Button(self.frame, text=matching_vacancy[i].position, width=18, command=lambda vac=matching_vacancy[i], owner = comp_owners[i]:
+                    self.to_show_vacancy_profile(root, vac, owner )).grid(row=row, column=1)
                     row = row + 1
 
 
@@ -982,8 +1091,10 @@ class JobSearch(Frame):
 
 if __name__ == '__main__':
     root = Tk()
-    root.title("GUI на Python")
+    root.title("Pharos")
     root.geometry("600x520")
-    main_page(root)
+    root.configure(background='#FFCCBC')
+    login_screen(root)
+    #main_page(root, 'nia')
 
 
