@@ -1,5 +1,5 @@
 class Company:
-    def __init__(self, name, founder, country, industry, company_size, website = None, vacancy = None):
+    def __init__(self, name, founder, country, industry, company_size, website=None, vacancy=None):
         self.name = name
         self.founder = founder
         self.industry = industry
@@ -26,7 +26,7 @@ class Company:
 
 
 class Vacancy:
-    def __init__(self, position, requirements, city, company, salary, skills, candidates = None):
+    def __init__(self, position, requirements, city, company, salary, skills, candidates=None):
         self.position = position
         self.city = city
         #self.requirements = requirements
@@ -52,10 +52,10 @@ OpenAI = Company("OpenAI", "Ilon Musk", "USA", "Artificial Intelligence", '500',
 
 Senior_SE = Vacancy("Senior Software Engineer", "These roles do not require machine learning background, though you should be interested in the field.",
                     'San Francisco', 'OpenAI','40000$', ['production services', 'Unix shell', 'system working',
-                                                         'machine learning'], candidates=None)
+                                                         'machine learning', '', ''], candidates=None)
 
 ML_Engi = Vacancy("Machine Learning Engineer", 'The Machine Learning Engineer role is responsible for building AI systems that can perform previously impossible tasks or achieve unprecedented levels of performance. '
-                  , 'San Francisco', 'OpenAI','40000$', ['machine learning', 'programming skills', 'AI safety'])
+                  , 'San Francisco', 'OpenAI','40000$', ['machine learning', 'programming skills', 'AI safety', '', '', ''])
 
 
 #print(OpenAI)
@@ -64,8 +64,8 @@ OpenAI.add_vacancy(ML_Engi)
 #print("\n",OpenAI)
 #print("\n",OpenAI.vacancy)
 
-Blizzard = Company('Blizzard', 'Allen Adham', 'USA', 'Computer Games', '4700', 'blizzard.com')
-companies = {Blizzard.name: Blizzard,
-             OpenAI.name: OpenAI}
-
+Blizzard = Company('Blizzard', 'nia', 'USA', 'Computer Games', '4700', 'blizzard.com')
+#companies = {Blizzard.name: Blizzard,
+#             OpenAI.name: OpenAI}
+companies = {}
 #print(companies['OpenAI'].vacancy['Senior Software Engineer'])

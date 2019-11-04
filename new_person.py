@@ -117,7 +117,7 @@ class AdditionPersonScreen(Frame):
         entr(self, contact_0, i)
         i = i + 1
         entr(self, contact_1, i)
-
+        i = i + 1
         sert_0 = StringVar()
         sert_1 = StringVar()
         sert_2 = StringVar()
@@ -125,7 +125,7 @@ class AdditionPersonScreen(Frame):
         sert_4 = StringVar()
         sert_5 = StringVar()
         sert_array = [sert_0,sert_1,sert_2,sert_3,sert_4,sert_5]
-        six_entries(self, sert_array, 24)
+        six_entries(self, sert_array, i)
 
         def to_out_array(array, out_array):
             for i in range(len(array)):
@@ -147,20 +147,23 @@ class AdditionPersonScreen(Frame):
             to_out_array(publ_array, out_publications)
             #print("out skills",out_skills)
 
-            p = Person(nickname.get(), password.get(),name.get(), last_name.get(), country.get(), industry.get(), education.get(), skills = out_skills,
-                       summary = summary.get(), headline =headline.get(),
-                 contacts = contacts, current_job = current_job.get(), jobs = jobs, certificates = out_sert,
-                        publication =out_publications)
-            dict.update({str(nickname.get()): p})
-            print(dict)
+            if dict[nickname.get()]:
+                messagebox.showinfo("Error", "Nickname exists")
+            else:
+                p = Person(nickname.get(), password.get(),name.get(), last_name.get(), country.get(), industry.get(), education.get(), skills = out_skills,
+                           summary = summary.get(), headline =headline.get(),
+                     contacts = contacts, current_job = current_job.get(), jobs = jobs, certificates = out_sert,
+                            publication =out_publications)
+                dict.update({str(nickname.get()): p})
+                print(dict)
 
             for key, value in dict.items():
-                print(key, value)
+                    print(key, value)
 
         i = 26
         Label(self.frame, text='', background='#FFCCBC').grid(row=i, column=0)
         but1 = Button(self.frame, text="Save", command=Save, width=18)
-        but1.grid(row=i+1, column=2)
+        but1.grid(row=i+5, column=3)
 
 
 if __name__ == '__main__':
